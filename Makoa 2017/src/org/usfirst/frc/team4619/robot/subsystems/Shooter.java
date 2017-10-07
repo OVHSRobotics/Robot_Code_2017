@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4619.robot.subsystems;
+/**package org.usfirst.frc.team4619.robot.subsystems;
 
 import org.usfirst.frc.team4619.robot.RobotMap;
 import org.usfirst.frc.team4619.robot.commands.ShootBall;
@@ -45,7 +45,7 @@ public class Shooter extends Subsystem{
 		//maximum rpm is 13180 +/- 10%
 		this.speed = speed;
 		shooter.changeControlMode(TalonControlMode.Speed);
-		shooter.set(speed);
+		shooter.set(-speed);
 	}
 	
 	public void doNothing() {
@@ -53,3 +53,4 @@ public class Shooter extends Subsystem{
 		shooter.set(0);
 	}
 }
+**/

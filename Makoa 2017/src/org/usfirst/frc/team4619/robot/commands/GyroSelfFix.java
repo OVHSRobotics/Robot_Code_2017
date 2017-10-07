@@ -1,48 +1,43 @@
 package org.usfirst.frc.team4619.robot.commands;
 
-public class TimeDriveMod extends CommandBase{
+public class GyroSelfFix extends CommandBase{
 	
+	double setPoint;
 	double time;
 	long startTime;
-	double speed;
 	
-	public TimeDriveMod(double time, double speed)
+	public GyroSelfFix(double time, double setPoint)
 	{
 		requires(driveMech);
 		this.time = time;
-		this.speed = speed;
-		driveMech.gyro.reset();
 	}
 	
 	protected void initialize() 
 	{
-		//setTimeout(this.time);
 		this.startTime = System.currentTimeMillis();
+		driveMech.setSetpoint(setPoint);
+		driveMech.enable();
+		//setTimeout(this.time);
 	}
 
-	@Override
+	@Override	
 	protected void execute() 
-	{
-		
-		driveMech.forwardMod(this.speed);
-		
-		
-	}
-	
+	{	
+	}	
 	
 	
 	@Override
 	protected boolean isFinished() 
 	{
 		// TODO Auto-generated method stub
-		return System.currentTimeMillis() - this.startTime > this.time * 1000;
 		//return isTimedOut();
+		return System.currentTimeMillis() - this.startTime > this.time * 1000;
 	}
 	
 	@Override
 	protected void end() 
 	{
-		driveMech.doNothing();
+		driveMech.disable();
 	}
 
 	@Override
@@ -50,5 +45,6 @@ public class TimeDriveMod extends CommandBase{
 		end();
 		//driveMech.doNothing();
 	}
+
 
 }

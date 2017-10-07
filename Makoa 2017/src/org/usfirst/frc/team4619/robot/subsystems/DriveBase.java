@@ -1,34 +1,35 @@
 package org.usfirst.frc.team4619.robot.subsystems;
 
 import org.usfirst.frc.team4619.robot.RobotMap;
+import org.usfirst.frc.team4619.robot.commands.CommandBase;
 import org.usfirst.frc.team4619.robot.commands.DriveJoystick;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class DriveBase extends Subsystem
+public class DriveBase extends PIDSubsystem
 {	
 	private VictorSP frontL = new VictorSP(RobotMap.PWM_PORT_3);
 	private VictorSP backL = new VictorSP(RobotMap.PWM_PORT_2);
 	private VictorSP frontR = new VictorSP(RobotMap.PWM_PORT_1);
 	private VictorSP backR = new VictorSP(RobotMap.PWM_PORT_0);
-	private Encoder rightEncoder;
-	private Encoder leftEncoder;
+	//private Encoder rightEncoder;
+	//private Encoder leftEncoder;
 	public ADXRS450_Gyro gyro;
-	private final static double p = 2;
-	private final static double i = .75;
-	private final static double d = 1;
+	private final static double p = .13;
+	private final static double i = 0;
+	private final static double d = .05;
+	
 	
 	public RobotDrive driveTrain;
 	
 	public DriveBase() {
-		rightEncoder = new Encoder(2, 3, false);
-		leftEncoder = new Encoder(0, 1, true);
+		super("DriveBase", p, i, d);
+		//rightEncoder = new Encoder(2, 3, false);
+		//leftEncoder = new Encoder(0, 1, true);
 		gyro = new ADXRS450_Gyro();
-		gyro.calibrate();
 		frontL.setInverted(true);
 		backL.setInverted(true);
 		frontR.setInverted(true);
@@ -115,14 +116,22 @@ public class DriveBase extends Subsystem
 		backL.set(speed);
 		backR.set(speed);
 	}
-
-	public Encoder getRightEncoder() {
-		return rightEncoder;
-	}
-
-	public Encoder getLeftEncoder()
-	{
-		return leftEncoder;
-	}
 	
+	//@Override
+	//protected double returnPIDInput() {
+		// TODO Auto-generated method stub	
+		//return CommandBase.driveMech.gyro.pidGet();
+	//}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+		arcadeDrive(-.5,output);
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

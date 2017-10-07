@@ -2,8 +2,9 @@
 package org.usfirst.frc.team4619.robot;
 
 import org.usfirst.frc.team4619.robot.commands.CommandBase;
-import org.usfirst.frc.team4619.robot.commands.DriveDistance;
+import org.usfirst.frc.team4619.robot.commands.GyroSelfFix;
 import org.usfirst.frc.team4619.robot.commands.TimeDriveMod;
+
 import org.usfirst.frc.team4619.robot.subsystems.ExampleSubsystem;
 
 import edu.wpi.cscore.UsbCamera;
@@ -39,11 +40,15 @@ public class Robot extends IterativeRobot {
 		CommandBase.init();
 		
 		chooser = new SendableChooser<>();
-		chooser.addDefault("Default Auto", new DriveDistance(0));
+		chooser.addDefault("Default Auto", new TimeDriveMod(15, 0));
 		chooser.addObject("Base Line", new TimeDriveMod(3, .5));
 		chooser.addObject("gear ", new TimeDriveMod(10, .3));
+		chooser.addObject("Gyro Straight", new GyroSelfFix(10,0));
+		
 		SmartDashboard.putData("Sup Chrissy, pick one: ", chooser);
-
+		CommandBase.driveMech.gyro.calibrate();
+		CommandBase.driveMech.gyro.reset();
+		
 		cam = CameraServer.getInstance().startAutomaticCapture();
 		cam.setResolution(160, 120);
 		cam.setFPS(30);
@@ -56,10 +61,12 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	@Override
+	
+	
 	public void disabledInit() {
 
 	}
-
+	
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
@@ -100,7 +107,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		Scheduler.getInstance().run();		
+
 	}
 
 	@Override
@@ -119,7 +127,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
+		if(CommandBase.oi.xbox.getRawAxis(RobotMap.R_TRIGGER)>0)
+		{
+			CommandBase.climberMech.Climb(.7);
+		}
+	
 	}
 
 	/**

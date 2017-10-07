@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4619.robot;
 
+import org.usfirst.frc.team4619.robot.commands.CommandBase;
 import org.usfirst.frc.team4619.robot.commands.RobotClimb;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -70,8 +70,6 @@ public class OI {
 	{
 		return xbox.getRawAxis(RobotMap.XBOX_YAXIS);
 	}
-	
-	
 	
 	
 
